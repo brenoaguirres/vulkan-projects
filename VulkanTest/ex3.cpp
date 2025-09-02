@@ -11,17 +11,17 @@
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
 
-const std::vector<const char*> validationLayers = {
-	"VK_LAYER_KHRONOS_validation" 
+const std::vector<const char*> validationLayers = { // define validation layers to use
+	"VK_LAYER_KHRONOS_validation"
 };
 
 #ifdef NDEBUG
-	const bool enableValidationLayers = false; 
+const bool enableValidationLayers = false; // disable validation layers in release mode
 #else
-	const bool enableValidationLayers = true;
+const bool enableValidationLayers = true;
 #endif
 
-class HelloTriangleApplication
+class HelloTriangleApplication3
 {
 
 public:
@@ -57,7 +57,7 @@ private:
 
 	void mainLoop()
 	{
-		while (!glfwWindowShouldClose(window)) 
+		while (!glfwWindowShouldClose(window))
 		{
 			glfwPollEvents();
 		}
@@ -79,7 +79,7 @@ private:
 
 	void createInstance()
 	{
-		if (enableValidationLayers && !checkValidationLayerSupport())
+		if (enableValidationLayers && !checkValidationLayerSupport()) // check if validation layers are available and enabled
 		{
 			throw std::runtime_error("validation layers requested, but not available!");
 		}
@@ -104,7 +104,7 @@ private:
 		createInfo.enabledExtensionCount = glfwExtensionCount;
 		createInfo.ppEnabledExtensionNames = glfwExtensions;
 
-		
+		// include validation layer names in vkInstanceCreateInfo
 		if (enableValidationLayers)
 		{
 			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
@@ -229,7 +229,7 @@ private:
 	}
 
 	VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
-		const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) 
+		const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger)
 	{
 		auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
 		if (func != nullptr) {
@@ -240,7 +240,7 @@ private:
 		}
 	}
 
-	void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) 
+	void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator)
 	{
 		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
 		if (func != nullptr) {
@@ -261,9 +261,9 @@ private:
 	}
 };
 
-int main()
+int exercise3()
 {
-	HelloTriangleApplication app;
+	HelloTriangleApplication3 app;
 
 	try
 	{

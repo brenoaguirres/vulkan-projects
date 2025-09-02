@@ -30,5 +30,8 @@
     <ClCompile Include="ex2.cpp">
       <Filter>Arquivos de Origem\examples</Filter>
     </ClCompile>
+    <ClCompile Include="ex3.cpp">
+      <Filter>Arquivos de Origem\examples</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
