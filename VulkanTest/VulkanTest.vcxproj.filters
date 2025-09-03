@@ -13,25 +13,52 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Arquivos de Origem\examples">
+    <Filter Include="Arquivos de Origem\Examples">
       <UniqueIdentifier>{387a41a0-137d-40da-a92a-0b7a862fece6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Examples\DrawingTriangle">
+      <UniqueIdentifier>{e4045d07-edb3-44dd-8335-5482d8473a32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Examples\DrawingTriangle\Setup">
+      <UniqueIdentifier>{5e84ad9f-f6c2-457d-bc13-27a72cdd2a7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Examples\DrawingTriangle\Presentation">
+      <UniqueIdentifier>{b1bb30d3-3c84-476a-8eec-54e60c77d5fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Examples\DrawingTriangle\GraphicsPipelineBasics">
+      <UniqueIdentifier>{55a06cdf-4a0b-4f23-9dc4-5fb719df5c20}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="ex1.cpp">
-      <Filter>Arquivos de Origem\examples</Filter>
-    </ClCompile>
     <ClCompile Include="basevulkan.cpp">
-      <Filter>Arquivos de Origem\examples</Filter>
+      <Filter>Arquivos de Origem\Examples</Filter>
+    </ClCompile>
+    <ClCompile Include="ex1.cpp">
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\Setup</Filter>
     </ClCompile>
     <ClCompile Include="ex2.cpp">
-      <Filter>Arquivos de Origem\examples</Filter>
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\Setup</Filter>
     </ClCompile>
     <ClCompile Include="ex3.cpp">
-      <Filter>Arquivos de Origem\examples</Filter>
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\Setup</Filter>
+    </ClCompile>
+    <ClCompile Include="ex4.cpp">
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\Setup</Filter>
+    </ClCompile>
+    <ClCompile Include="ex5.cpp">
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\Setup</Filter>
+    </ClCompile>
+    <ClCompile Include="ex6.cpp">
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\Presentation</Filter>
+    </ClCompile>
+    <ClCompile Include="ex7.cpp">
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\Presentation</Filter>
+    </ClCompile>
+    <ClCompile Include="ex8.cpp">
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\Presentation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

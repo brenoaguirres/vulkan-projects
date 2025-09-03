@@ -17,7 +17,7 @@ const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
 
 const std::vector<const char*> validationLayers = {
-	"VK_LAYER_KHRONOS_validation" 
+	"VK_LAYER_KHRONOS_validation"
 };
 
 const std::vector<const char*> deviceExtensions = {
@@ -26,9 +26,9 @@ const std::vector<const char*> deviceExtensions = {
 #pragma endregion
 
 #ifdef NDEBUG
-	const bool enableValidationLayers = false;
+const bool enableValidationLayers = false;
 #else
-	const bool enableValidationLayers = true;
+const bool enableValidationLayers = true;
 #endif
 
 #pragma region DATA STRUCTURES
@@ -51,7 +51,7 @@ struct SwapChainSupportDetails
 };
 #pragma endregion
 
-class HelloTriangleApplication
+class HelloTriangleApplication7
 {
 
 #pragma region APP
@@ -67,7 +67,7 @@ public:
 
 private:
 	// setup
-	GLFWwindow*					window;
+	GLFWwindow* window;
 	VkInstance					instance;
 	VkDebugUtilsMessengerEXT	debugMessenger;
 	VkPhysicalDevice			physicalDevice = VK_NULL_HANDLE;
@@ -81,7 +81,6 @@ private:
 	std::vector<VkImage>		swapChainImages;
 	VkFormat					swapChainImageFormat;
 	VkExtent2D					swapChainExtent;
-	std::vector<VkImageView>	swapChainImageViews;
 
 	void initWindow()
 	{
@@ -101,13 +100,11 @@ private:
 		pickPhysicalDevice();
 		createLogicalDevice();
 		createSwapChain();
-		createImageViews();
-		createGraphicsPipeline();
 	}
 
 	void mainLoop()
 	{
-		while (!glfwWindowShouldClose(window)) 
+		while (!glfwWindowShouldClose(window))
 		{
 			glfwPollEvents();
 		}
@@ -115,11 +112,6 @@ private:
 
 	void cleanup()
 	{
-		for (auto imageView : swapChainImageViews)
-		{
-			vkDestroyImageView(device, imageView, nullptr);
-		}
-
 		vkDestroySwapchainKHR(device, swapChain, nullptr);
 
 		vkDestroyDevice(device, nullptr);
@@ -128,7 +120,7 @@ private:
 		{
 			DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
 		}
-		
+
 		vkDestroySurfaceKHR(instance, surface, nullptr);
 		vkDestroyInstance(instance, nullptr);
 
@@ -168,7 +160,7 @@ private:
 		createInfo.enabledExtensionCount = glfwExtensionCount;
 		createInfo.ppEnabledExtensionNames = glfwExtensions;
 
-		
+
 		if (enableValidationLayers)
 		{
 			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
@@ -297,7 +289,7 @@ private:
 	}
 
 	VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
-		const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) 
+		const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger)
 	{
 		auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
 		if (func != nullptr) {
@@ -308,7 +300,7 @@ private:
 		}
 	}
 
-	void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) 
+	void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator)
 	{
 		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
 		if (func != nullptr) {
@@ -418,7 +410,7 @@ private:
 
 		return indices;
 	}
-	
+
 	bool checkDeviceExtensionSupport(VkPhysicalDevice device)
 	{
 		uint32_t extensionCount;
@@ -492,16 +484,22 @@ private:
 #pragma endregion
 
 #pragma region SWAP CHAIN
+	// Creating swap chain
 	void createSwapChain()
 	{
+		// query details
+
 		SwapChainSupportDetails swapChainSupport = querySwapChainSupport(physicalDevice);
 
 		VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
 		VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes);
 		VkExtent2D extent = chooseSwapExtent(swapChainSupport.capabilities);
 
-		uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
-		if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount) 
+		// Get n of images on swap chain
+
+		// at least one more so we won't have to wait the driver complete its operations to acquire images.
+		uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1; // how many images to have on swap chain.
+		if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount) // 0 - means no maximum
 		{
 			imageCount = swapChainSupport.capabilities.maxImageCount;
 		}
@@ -513,33 +511,38 @@ private:
 		createInfo.imageFormat = surfaceFormat.format;
 		createInfo.imageColorSpace = surfaceFormat.colorSpace;
 		createInfo.imageExtent = extent;
-		createInfo.imageArrayLayers = 1;
+		createInfo.imageArrayLayers = 1; // amount of layers of each img, always 1 except for stereoscopic 3D application.
 
-		createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+		createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; // what kind of operations we'll use the swap chain images for
+		// here we'll render directly on the img, hence COLOR ATTACHMENT
+		// we could  render to a separate img first though, to perform operations like post-processing (VK_IMAGE_USAGE_TRANSFER_DST_BIT).
 
+
+		// If graphics queue family is different from presentation queue, we'll be drawing on the images in the swap chain
+		// from the graphics queue and then submitting them on the presentation queue.
 		QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
 		uint32_t queueFamilyIndices[] = { indices.graphicsFamily.value(), indices.presentFamily.value() };
 
 		if (indices.graphicsFamily != indices.presentFamily)
 		{
-			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT; 
-											
+			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT; // img owned by one queue family at time and ownership must be explicitly transferred before using it 
+			//in another queue family. offers best performance.
 			createInfo.queueFamilyIndexCount = 2;
 			createInfo.pQueueFamilyIndices = queueFamilyIndices;
 		}
 		else
 		{
-			createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE; 
-			createInfo.queueFamilyIndexCount = 0; 
-			createInfo.pQueueFamilyIndices = nullptr; 
+			createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE; // img can be used across multiples queue families without explicit ownership transfer.
+			createInfo.queueFamilyIndexCount = 0; // Optional
+			createInfo.pQueueFamilyIndices = nullptr; // Optional
 		}
 
-		createInfo.preTransform = swapChainSupport.capabilities.currentTransform; 
-		createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; 
+		createInfo.preTransform = swapChainSupport.capabilities.currentTransform; // we can apply transform ops here, like 90 degree clockwise rot or hor flip.
+		createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; // the alpha channel should blend with other windows? no. opaque then.
 		createInfo.presentMode = presentMode;
-		createInfo.clipped = VK_TRUE; 
+		createInfo.clipped = VK_TRUE; // We dont care about eh color of pixels that are obscured, like if other window is in front of them.
 
-		createInfo.oldSwapchain = VK_NULL_HANDLE; 
+		createInfo.oldSwapchain = VK_NULL_HANDLE; // invalid swap chains must be handled here, e.g. if the window is resized. we'll handle this later on.
 
 		if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain) != VK_SUCCESS)
 		{
@@ -553,7 +556,8 @@ private:
 		swapChainImageFormat = surfaceFormat.format;
 		swapChainExtent = extent;
 	}
-	
+
+	// Querying details of swap chain support
 	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device)
 	{
 		SwapChainSupportDetails details;
@@ -565,7 +569,7 @@ private:
 
 		if (formatCount != 0)
 		{
-			details.formats.resize(formatCount);
+			details.formats.resize(formatCount); // vector is resized to hold all available formats
 			vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, details.formats.data());
 		}
 
@@ -581,6 +585,11 @@ private:
 		return details;
 	}
 
+	// Choosing best swap chain settings
+	// - Surface Format (color depth)
+	// - Presentation Mode (conditions for "swapping" images to the screen)
+	// - Swap Extent (resolution of images in swap chain)
+
 	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 	{
 		for (const auto& availableFormat : availableFormats)
@@ -592,6 +601,15 @@ private:
 		return availableFormats[0];
 	}
 
+	// represents the conditions for showing images to screen
+	// VK_PRESENT_MODE_IMMEDIATE_KHR - images transferred right away, may result in tearing
+	// VK_PRESENT_MODE_FIFO_KHR - Get first img of queue when display is refreshed, inserts rendered imgs at the back of queue. 
+	//		Most similar to v sync in modern games, the moment that the display is refreshed is called vertical blank.
+	//		If queue is full, program has to wait.
+	// VK_PRESENT_MODE_FIFO_RELAXED_KHR - If queue was empty at last vertical blank than img is transferred right away. May result in tearing.
+	// VK_PRESENT_MODE_MAILBOX_KHR - Replaces images when the queue is full, instead of blocking. Is used to render frames as fast as possible
+	//		while still avoiding tearing, resulting in fewer latency issues than v sync. Known as triple buffering, although the existence of
+	//		three buffers alone does not necessarily mean that the framerate is unlocked.
 	VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
 	{
 		for (const auto& availablePresentMode : availablePresentModes)
@@ -602,8 +620,13 @@ private:
 			}
 		}
 
-		return VK_PRESENT_MODE_FIFO_KHR; 
+		return VK_PRESENT_MODE_FIFO_KHR; // better for mobile where energy usage is a concern.
 	}
+
+	// resolution of the swap chain images almost always equal to window we're drawing to in pixels.
+	// GLFW uses 2 units when measuring sizes - pixels and screen coordinates.
+	// The resolution specified for the window is measured in screen coordinates, but vulkan works with pixels so the swap chain mus be specified in pixels.
+	// We must use glfwGetFramebufferSize to query the resolution of the window in pixels before matching against max and min image extent.
 	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities)
 	{
 		if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max())
@@ -612,6 +635,7 @@ private:
 		}
 		else
 		{
+			// converting from screen coord to pixels
 			int width, height;
 			glfwGetFramebufferSize(window, &width, &height);
 
@@ -620,6 +644,7 @@ private:
 				static_cast<uint32_t>(height)
 			};
 
+			// bounding values of w,h between allowed minimum and maximum extents supported by implementation
 			actualExtent.width = std::clamp(actualExtent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
 			actualExtent.height = std::clamp(actualExtent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
 
@@ -627,53 +652,13 @@ private:
 		}
 	}
 #pragma endregion
-
-#pragma region IMAGE VIEWS
-	void createImageViews()
-	{
-		swapChainImageViews.resize(swapChainImages.size());
-
-		for (size_t i = 0; i < swapChainImages.size(); i++)
-		{
-			VkImageViewCreateInfo createInfo{};
-			createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-			createInfo.image = swapChainImages[i];
-
-			createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-			createInfo.format = swapChainImageFormat;
-
-			createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
-			createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
-			createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
-			createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
-
-			createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-			createInfo.subresourceRange.baseMipLevel = 0;
-			createInfo.subresourceRange.levelCount = 1;
-			createInfo.subresourceRange.baseArrayLayer = 0;
-			createInfo.subresourceRange.layerCount = 1;
-
-			if (vkCreateImageView(device, &createInfo, nullptr, &swapChainImageViews[i]) != VK_SUCCESS)
-			{
-				throw std::runtime_error("failed to create image views!");
-			}
-		}
-	}
-#pragma endregion
-
-#pragma region GRAPHICS PIPELINE
-	void createGraphicsPipeline()
-	{
-
-	}
-#pragma endregion
 };
 
 #pragma region MAIN PROGRAM
 
-int main()
+int exercise7()
 {
-	HelloTriangleApplication app;
+	HelloTriangleApplication7 app;
 
 	try
 	{

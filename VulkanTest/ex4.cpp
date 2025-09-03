@@ -1,30 +1,40 @@
-// Validation Layers
-
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
 #include <iostream>
 #include <stdexcept>
 #include <cstdlib>
-
 #include <vector>
 #include <cstring>
+#include <optional>
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
 
-const std::vector<const char*> validationLayers = { // define validation layers to use
+const std::vector<const char*> validationLayers = {
 	"VK_LAYER_KHRONOS_validation"
 };
 
 #ifdef NDEBUG
-const bool enableValidationLayers = false; // disable validation layers in release mode
+const bool enableValidationLayers = false;
 #else
 const bool enableValidationLayers = true;
 #endif
 
-class HelloTriangleApplication3
+struct QueueFamilyIndices
 {
+	std::optional<uint32_t> graphicsFamily;
+
+	bool isComplete()
+	{
+		return graphicsFamily.has_value();
+	}
+};
+
+class HelloTriangleApplication4
+{
+
+#pragma region APP
 
 public:
 	void run()
@@ -55,6 +65,7 @@ private:
 	{
 		createInstance();
 		setupDebugMessenger();
+		pickPhysicalDevice();
 	}
 
 	void mainLoop()
@@ -79,9 +90,13 @@ private:
 		glfwTerminate();
 	}
 
+#pragma endregion
+
+#pragma region VULKAN INSTANCE
+
 	void createInstance()
 	{
-		if (enableValidationLayers && !checkValidationLayerSupport()) // check if validation layers are available and enabled
+		if (enableValidationLayers && !checkValidationLayerSupport())
 		{
 			throw std::runtime_error("validation layers requested, but not available!");
 		}
@@ -106,7 +121,7 @@ private:
 		createInfo.enabledExtensionCount = glfwExtensionCount;
 		createInfo.ppEnabledExtensionNames = glfwExtensions;
 
-		// include validation layer names in vkInstanceCreateInfo
+
 		if (enableValidationLayers)
 		{
 			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
@@ -163,6 +178,10 @@ private:
 			std::cout << '\t' << extension.extensionName << '\n';
 		}
 	}
+
+#pragma endregion
+
+#pragma region VALIDATION LAYERS
 
 	bool checkValidationLayerSupport()
 	{
@@ -261,11 +280,99 @@ private:
 
 		return VK_FALSE;
 	}
+
+#pragma endregion
+
+#pragma region PHYSICAL DEVICE AND QUEUE FAMILIES
+
+	void pickPhysicalDevice() // selects one of the available physical devices
+	{
+		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; // stores graphics card, implicitly destroyed when instance is destroyed
+
+		uint32_t deviceCount = 0;
+		vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr); // get number of devices	
+
+		if (deviceCount == 0)
+		{
+			throw std::runtime_error("failed to find GPUs with Vulkan support!");
+		}
+
+		std::vector<VkPhysicalDevice> devices(deviceCount);
+		vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data()); // get devices
+
+		// verify if devices are suitable
+		for (const auto& device : devices)
+		{
+			if (isDeviceSuitable(device))
+			{
+				physicalDevice = device;
+				break;
+			}
+		}
+
+		if (physicalDevice == VK_NULL_HANDLE)
+		{
+			throw std::runtime_error("failed to find a suitable GPU!");
+		}
+	}
+
+	bool isDeviceSuitable(VkPhysicalDevice device) // check if device supports required features
+	{
+		VkPhysicalDeviceProperties deviceProperties;
+		vkGetPhysicalDeviceProperties(device, &deviceProperties); // Query device properties
+
+		VkPhysicalDeviceFeatures deviceFeatures;
+		vkGetPhysicalDeviceFeatures(device, &deviceFeatures); // Query device optional features - 64 bit floats, texture compression, etc.
+
+		QueueFamilyIndices indices = findQueueFamilies(device);
+
+		return indices.isComplete();
+	}
+
+	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device)
+	{
+		// Logic to find queue family indices to populate struct with
+		QueueFamilyIndices indices;
+
+		// Assign index to queue families that could be found
+		uint32_t queueFamilyCount = 0;
+		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+
+		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+		int i = 0;
+		for (const auto& queueFamily : queueFamilies)
+		{
+			if (indices.isComplete())
+			{
+				break;
+			}
+
+			if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+			{
+				indices.graphicsFamily = i;
+			}
+
+			i++;
+		}
+
+		return indices;
+	}
+
+#pragma endregion
+
+#pragma region LOGICAL DEVICE AND QUEUES
+
+#pragma endregion
+
 };
 
-int exercise3()
+#pragma region MAIN PROGRAM
+
+int exercise4()
 {
-	HelloTriangleApplication3 app;
+	HelloTriangleApplication4 app;
 
 	try
 	{
@@ -279,3 +386,5 @@ int exercise3()
 
 	return EXIT_SUCCESS;
 }
+
+#pragma endregion

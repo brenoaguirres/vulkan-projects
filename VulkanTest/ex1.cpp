@@ -1,3 +1,5 @@
+// Base Code
+
 //#include <vulkan/vulkan.h> // vulkan header will work alone as well but won't show anything
 
 #define GLFW_INCLUDE_VULKAN

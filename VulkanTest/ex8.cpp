@@ -17,7 +17,7 @@ const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
 
 const std::vector<const char*> validationLayers = {
-	"VK_LAYER_KHRONOS_validation" 
+	"VK_LAYER_KHRONOS_validation"
 };
 
 const std::vector<const char*> deviceExtensions = {
@@ -26,9 +26,9 @@ const std::vector<const char*> deviceExtensions = {
 #pragma endregion
 
 #ifdef NDEBUG
-	const bool enableValidationLayers = false;
+const bool enableValidationLayers = false;
 #else
-	const bool enableValidationLayers = true;
+const bool enableValidationLayers = true;
 #endif
 
 #pragma region DATA STRUCTURES
@@ -51,7 +51,7 @@ struct SwapChainSupportDetails
 };
 #pragma endregion
 
-class HelloTriangleApplication
+class HelloTriangleApplication8
 {
 
 #pragma region APP
@@ -67,7 +67,7 @@ public:
 
 private:
 	// setup
-	GLFWwindow*					window;
+	GLFWwindow* window;
 	VkInstance					instance;
 	VkDebugUtilsMessengerEXT	debugMessenger;
 	VkPhysicalDevice			physicalDevice = VK_NULL_HANDLE;
@@ -102,12 +102,11 @@ private:
 		createLogicalDevice();
 		createSwapChain();
 		createImageViews();
-		createGraphicsPipeline();
 	}
 
 	void mainLoop()
 	{
-		while (!glfwWindowShouldClose(window)) 
+		while (!glfwWindowShouldClose(window))
 		{
 			glfwPollEvents();
 		}
@@ -128,7 +127,7 @@ private:
 		{
 			DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
 		}
-		
+
 		vkDestroySurfaceKHR(instance, surface, nullptr);
 		vkDestroyInstance(instance, nullptr);
 
@@ -168,7 +167,7 @@ private:
 		createInfo.enabledExtensionCount = glfwExtensionCount;
 		createInfo.ppEnabledExtensionNames = glfwExtensions;
 
-		
+
 		if (enableValidationLayers)
 		{
 			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
@@ -297,7 +296,7 @@ private:
 	}
 
 	VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
-		const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) 
+		const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger)
 	{
 		auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
 		if (func != nullptr) {
@@ -308,7 +307,7 @@ private:
 		}
 	}
 
-	void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) 
+	void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator)
 	{
 		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
 		if (func != nullptr) {
@@ -418,7 +417,7 @@ private:
 
 		return indices;
 	}
-	
+
 	bool checkDeviceExtensionSupport(VkPhysicalDevice device)
 	{
 		uint32_t extensionCount;
@@ -501,7 +500,7 @@ private:
 		VkExtent2D extent = chooseSwapExtent(swapChainSupport.capabilities);
 
 		uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
-		if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount) 
+		if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount)
 		{
 			imageCount = swapChainSupport.capabilities.maxImageCount;
 		}
@@ -522,24 +521,24 @@ private:
 
 		if (indices.graphicsFamily != indices.presentFamily)
 		{
-			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT; 
-											
+			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+
 			createInfo.queueFamilyIndexCount = 2;
 			createInfo.pQueueFamilyIndices = queueFamilyIndices;
 		}
 		else
 		{
-			createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE; 
-			createInfo.queueFamilyIndexCount = 0; 
-			createInfo.pQueueFamilyIndices = nullptr; 
+			createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+			createInfo.queueFamilyIndexCount = 0;
+			createInfo.pQueueFamilyIndices = nullptr;
 		}
 
-		createInfo.preTransform = swapChainSupport.capabilities.currentTransform; 
-		createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; 
+		createInfo.preTransform = swapChainSupport.capabilities.currentTransform;
+		createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 		createInfo.presentMode = presentMode;
-		createInfo.clipped = VK_TRUE; 
+		createInfo.clipped = VK_TRUE;
 
-		createInfo.oldSwapchain = VK_NULL_HANDLE; 
+		createInfo.oldSwapchain = VK_NULL_HANDLE;
 
 		if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain) != VK_SUCCESS)
 		{
@@ -553,7 +552,7 @@ private:
 		swapChainImageFormat = surfaceFormat.format;
 		swapChainExtent = extent;
 	}
-	
+
 	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device)
 	{
 		SwapChainSupportDetails details;
@@ -602,7 +601,7 @@ private:
 			}
 		}
 
-		return VK_PRESENT_MODE_FIFO_KHR; 
+		return VK_PRESENT_MODE_FIFO_KHR;
 	}
 	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities)
 	{
@@ -629,8 +628,11 @@ private:
 #pragma endregion
 
 #pragma region IMAGE VIEWS
+	// a view into an image - describest how to access the image and which part of the image to access, e.g. if it should be treated as a
+	// 2D texture depth texture without mipmapping
 	void createImageViews()
 	{
+		// this will create an image view for every image in the swap chain so we can use them as color targets later on.
 		swapChainImageViews.resize(swapChainImages.size());
 
 		for (size_t i = 0; i < swapChainImages.size(); i++)
@@ -639,14 +641,17 @@ private:
 			createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 			createInfo.image = swapChainImages[i];
 
-			createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+			// specify how image data should be interpreted
+			createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D; //1D, 2D, 3D tex and cubemap
 			createInfo.format = swapChainImageFormat;
 
+			// components let you swizzle color channels
 			createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
 			createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
 			createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
 			createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
 
+			// what's the image's purpose and which part should be accessed
 			createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 			createInfo.subresourceRange.baseMipLevel = 0;
 			createInfo.subresourceRange.levelCount = 1;
@@ -661,19 +666,13 @@ private:
 	}
 #pragma endregion
 
-#pragma region GRAPHICS PIPELINE
-	void createGraphicsPipeline()
-	{
-
-	}
-#pragma endregion
 };
 
 #pragma region MAIN PROGRAM
 
-int main()
+int exercise8()
 {
-	HelloTriangleApplication app;
+	HelloTriangleApplication8 app;
 
 	try
 	{
