@@ -28,6 +28,9 @@
     <Filter Include="Arquivos de Origem\Examples\DrawingTriangle\GraphicsPipelineBasics">
       <UniqueIdentifier>{55a06cdf-4a0b-4f23-9dc4-5fb719df5c20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Arquivos de Origem\shaders">
+      <UniqueIdentifier>{9c33299c-da77-42ad-9c27-48986f6dbe01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,5 +63,34 @@
     <ClCompile Include="ex8.cpp">
       <Filter>Arquivos de Origem\Examples\DrawingTriangle\Presentation</Filter>
     </ClCompile>
+    <ClCompile Include="ex9.cpp">
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\GraphicsPipelineBasics</Filter>
+    </ClCompile>
+    <ClCompile Include="ex10.cpp">
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\GraphicsPipelineBasics</Filter>
+    </ClCompile>
+    <ClCompile Include="ex11.cpp">
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\GraphicsPipelineBasics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\shader.frag">
+      <Filter>Arquivos de Origem\shaders</Filter>
+    </None>
+    <None Include="Shaders\shader.vert">
+      <Filter>Arquivos de Origem\shaders</Filter>
+    </None>
+    <None Include="shaders\compile.bat">
+      <Filter>Arquivos de Origem\shaders</Filter>
+    </None>
+    <None Include="shaders\vert.spv">
+      <Filter>Arquivos de Origem\shaders</Filter>
+    </None>
+    <None Include="shaders\frag.spv">
+      <Filter>Arquivos de Origem\shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="spirv.txt" />
   </ItemGroup>
 </Project>

@@ -18,7 +18,7 @@ const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
 
 const std::vector<const char*> validationLayers = {
-	"VK_LAYER_KHRONOS_validation" 
+	"VK_LAYER_KHRONOS_validation"
 };
 
 const std::vector<const char*> deviceExtensions = {
@@ -27,11 +27,11 @@ const std::vector<const char*> deviceExtensions = {
 #pragma endregion
 
 #ifdef NDEBUG
-	const bool enableValidationLayers = false;
-	const bool debugMode = false;
+const bool enableValidationLayers = false;
+const bool debugMode = false;
 #else
-	const bool enableValidationLayers = true;
-	const bool debugMode = true;
+const bool enableValidationLayers = true;
+const bool debugMode = true;
 #endif
 
 #pragma region DATA STRUCTURES
@@ -54,7 +54,7 @@ struct SwapChainSupportDetails
 };
 #pragma endregion
 
-class HelloTriangleApplication
+class HelloTriangleApplication11
 {
 
 #pragma region APP
@@ -70,7 +70,7 @@ public:
 
 private:
 	// setup
-	GLFWwindow*					window;
+	GLFWwindow* window;
 	VkInstance					instance;
 	VkDebugUtilsMessengerEXT	debugMessenger;
 	VkPhysicalDevice			physicalDevice = VK_NULL_HANDLE;
@@ -108,13 +108,12 @@ private:
 		createLogicalDevice();
 		createSwapChain();
 		createImageViews();
-		createRenderPass();
 		createGraphicsPipeline();
 	}
 
 	void mainLoop()
 	{
-		while (!glfwWindowShouldClose(window)) 
+		while (!glfwWindowShouldClose(window))
 		{
 			glfwPollEvents();
 		}
@@ -137,7 +136,7 @@ private:
 		{
 			DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
 		}
-		
+
 		vkDestroySurfaceKHR(instance, surface, nullptr);
 		vkDestroyInstance(instance, nullptr);
 
@@ -177,7 +176,7 @@ private:
 		createInfo.enabledExtensionCount = glfwExtensionCount;
 		createInfo.ppEnabledExtensionNames = glfwExtensions;
 
-		
+
 		if (enableValidationLayers)
 		{
 			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
@@ -306,7 +305,7 @@ private:
 	}
 
 	VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
-		const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) 
+		const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger)
 	{
 		auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
 		if (func != nullptr) {
@@ -317,7 +316,7 @@ private:
 		}
 	}
 
-	void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) 
+	void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator)
 	{
 		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
 		if (func != nullptr) {
@@ -427,7 +426,7 @@ private:
 
 		return indices;
 	}
-	
+
 	bool checkDeviceExtensionSupport(VkPhysicalDevice device)
 	{
 		uint32_t extensionCount;
@@ -510,7 +509,7 @@ private:
 		VkExtent2D extent = chooseSwapExtent(swapChainSupport.capabilities);
 
 		uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
-		if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount) 
+		if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount)
 		{
 			imageCount = swapChainSupport.capabilities.maxImageCount;
 		}
@@ -531,24 +530,24 @@ private:
 
 		if (indices.graphicsFamily != indices.presentFamily)
 		{
-			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT; 
-											
+			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+
 			createInfo.queueFamilyIndexCount = 2;
 			createInfo.pQueueFamilyIndices = queueFamilyIndices;
 		}
 		else
 		{
-			createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE; 
-			createInfo.queueFamilyIndexCount = 0; 
-			createInfo.pQueueFamilyIndices = nullptr; 
+			createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+			createInfo.queueFamilyIndexCount = 0;
+			createInfo.pQueueFamilyIndices = nullptr;
 		}
 
-		createInfo.preTransform = swapChainSupport.capabilities.currentTransform; 
-		createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; 
+		createInfo.preTransform = swapChainSupport.capabilities.currentTransform;
+		createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 		createInfo.presentMode = presentMode;
-		createInfo.clipped = VK_TRUE; 
+		createInfo.clipped = VK_TRUE;
 
-		createInfo.oldSwapchain = VK_NULL_HANDLE; 
+		createInfo.oldSwapchain = VK_NULL_HANDLE;
 
 		if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain) != VK_SUCCESS)
 		{
@@ -562,7 +561,7 @@ private:
 		swapChainImageFormat = surfaceFormat.format;
 		swapChainExtent = extent;
 	}
-	
+
 	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device)
 	{
 		SwapChainSupportDetails details;
@@ -611,7 +610,7 @@ private:
 			}
 		}
 
-		return VK_PRESENT_MODE_FIFO_KHR; 
+		return VK_PRESENT_MODE_FIFO_KHR;
 	}
 	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities)
 	{
@@ -699,18 +698,40 @@ private:
 		vkDestroyShaderModule(device, fragShaderModule, nullptr);
 		vkDestroyShaderModule(device, vertShaderModule, nullptr);
 
+		// dynamic state - some of the states in the pipeline can be dynamic - none in this case
+		// scissors and viewports may be specified as dynamic so we get more than one combination through the program states.
+		// this is very common and well perfomant.
+
+		/*
+			std::vector<VkDynamicState> dynamicStates = {
+			VK_DYNAMIC_STATE_VIEWPORT,
+			VK_DYNAMIC_STATE_SCISSOR
+			};
+
+			VkPipelineDynamicStateCreateInfo dynamicState{};
+			dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+			dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
+			dynamicState.pDynamicStates = dynamicStates.data();
+		*/
+
+		// vertex input - describes the format of the vertex data passed to the vertex shader.
+		// we won't pass vertex data since its being declared into the shader
 		VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
 		vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-		vertexInputInfo.vertexBindingDescriptionCount = 0; 
-		vertexInputInfo.pVertexBindingDescriptions = nullptr; 
-		vertexInputInfo.vertexAttributeDescriptionCount = 0; 
-		vertexInputInfo.pVertexAttributeDescriptions = nullptr; 
+		vertexInputInfo.vertexBindingDescriptionCount = 0; // binding - spacing betweend data and whether the data is per-vertex or per-instance
+		vertexInputInfo.pVertexBindingDescriptions = nullptr; // optional
+		vertexInputInfo.vertexAttributeDescriptionCount = 0; // attribute descriptions - type of attributes passed to the vertex shader, which binding to load and at which offset
+		vertexInputInfo.pVertexAttributeDescriptions = nullptr; // optional
 
+		// input assembly - describes what kind of geometry is going to be drawn - triangules without reuse in this case
 		VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
 		inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
 		inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 		inputAssembly.primitiveRestartEnable = VK_FALSE;
 
+		// viewports and scissors
+		// viewport - region of the framebuffer that the output will be rendered to.
+		// scissors - define in which regions pixels will actually be stored, the rest will be discarded by the rasterizer.
 		VkViewport viewport{};
 		viewport.x = 0.0f;
 		viewport.y = 0.0f;
@@ -723,6 +744,7 @@ private:
 		scissor.offset = { 0, 0 };
 		scissor.extent = swapChainExtent;
 
+		// static viewport and scissor rectangle setup
 		VkPipelineViewportStateCreateInfo viewportState{};
 		viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 		viewportState.viewportCount = 1;
@@ -730,56 +752,86 @@ private:
 		viewportState.scissorCount = 1;
 		viewportState.pScissors = &scissor;
 
+		// rasterizer - Takes the geometry from the vertex shader and turns it into fragments to be colored by the fragment shader
+		// also performs depth testing, face culling and scissor test, can output fragments that fill entire polygons or just the edges (wireframe rendering).
+
 		VkPipelineRasterizationStateCreateInfo rasterizer{};
 		rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+		// clamps frags beyond near and far planes instead of discarding, useful for shadow maps - requires GPU feature
 		rasterizer.depthClampEnable = VK_FALSE;
+
+		// disables output to framebuffer
 		rasterizer.rasterizerDiscardEnable = VK_FALSE;
+
+		// determines how frags are generated for geometry - fill, line, point - requires GPU feature for other than fill
 		rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
+
+		// describes the thickness of lines in terms of number of fragments. Any line thicker than 1.0f requires wideLines GPU feature
 		rasterizer.lineWidth = 1.0f;
+
+		// type of face culling mode - disable, cull front, cull back, cull both
 		rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
+		// specifies vertex order for faces to be considered front-facing (can be clockwise or counter-clockwise).
 		rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
 
+		// can alter depth values by adding a constant value or biasing them based on a frag's slope, used for shadow mapping.
 		rasterizer.depthBiasEnable = VK_FALSE;
-		rasterizer.depthBiasConstantFactor = 0.0f; 
-		rasterizer.depthBiasClamp = 0.0f; 
-		rasterizer.depthBiasSlopeFactor = 0.0f; 
+		rasterizer.depthBiasConstantFactor = 0.0f; // Optional
+		rasterizer.depthBiasClamp = 0.0f; // Optional
+		rasterizer.depthBiasSlopeFactor = 0.0f; // Optional
 
+		// multisampling - config multisampling which is one of the ways to perform anti-aliasing.
+		// works combining fragment shader results of multiple polygons that rasterize to the same pixel.
+		// requires GPU Feature
 		VkPipelineMultisampleStateCreateInfo multisampling{};
 		multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
 		multisampling.sampleShadingEnable = VK_FALSE;
 		multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
-		multisampling.minSampleShading = 1.0f; 
-		multisampling.pSampleMask = nullptr; 
-		multisampling.alphaToCoverageEnable = VK_FALSE; 
-		multisampling.alphaToOneEnable = VK_FALSE; 
+		multisampling.minSampleShading = 1.0f; // Optional
+		multisampling.pSampleMask = nullptr; // Optional
+		multisampling.alphaToCoverageEnable = VK_FALSE; // Optional
+		multisampling.alphaToOneEnable = VK_FALSE; // Optional
 
+		// depth and stencil testing
+		// won't use depth / stencil buffers rn, so we'll pass a nullptr instead
+
+		// color blending - after frag shader returns a color, it needs to be combined with the color that is already in the framebuffer.
+		// Two ways to color blend:
+		// - mix old and new value to produce final color
+		// - combine old and new value using a bitwise op
+		// VkPipelineColorBlendAttachmentState contains the config per attached framebuffer
+		// VkPipelineColorBlendStateCreateInfo contains global color blending settings
 		VkPipelineColorBlendAttachmentState colorBlendAttachment{};
 		colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 		colorBlendAttachment.blendEnable = VK_FALSE;
-		colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE; 
-		colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-		colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD; 
-		colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;  
-		colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO; 
-		colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD; 
+		colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE; // Optional
+		colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ZERO; // Optional
+		colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD; // Optional
+		colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;  // Optional
+		colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO; // Optional
+		colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD; // Optional
 
 		VkPipelineColorBlendStateCreateInfo colorBlending{};
 		colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-		colorBlending.logicOpEnable = VK_FALSE; 
-		colorBlending.logicOp = VK_LOGIC_OP_COPY; 
+		colorBlending.logicOpEnable = VK_FALSE; // if you want to use bitwise combination
+		colorBlending.logicOp = VK_LOGIC_OP_COPY; // Optional - bitwise operation should be specified here
 		colorBlending.attachmentCount = 1;
 		colorBlending.pAttachments = &colorBlendAttachment;
-		colorBlending.blendConstants[0] = 0.0f; 
-		colorBlending.blendConstants[1] = 0.0f; 
-		colorBlending.blendConstants[2] = 0.0f; 
-		colorBlending.blendConstants[3] = 0.0f; 
+		// constants that can be used in the calculations
+		colorBlending.blendConstants[0] = 0.0f; // Optional
+		colorBlending.blendConstants[1] = 0.0f; // Optional
+		colorBlending.blendConstants[2] = 0.0f; // Optional
+		colorBlending.blendConstants[3] = 0.0f; // Optional
 
+		// pipeline layout
+		// you can use uniform values in shaders which are globals similar to dynamic state variables that can be changed at drawing time to alter the
+		// behaviour of the shaders without having to recreate them.
 		VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
 		pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-		pipelineLayoutInfo.setLayoutCount = 0;
-		pipelineLayoutInfo.pSetLayouts = nullptr;
-		pipelineLayoutInfo.pushConstantRangeCount = 0;
-		pipelineLayoutInfo.pPushConstantRanges = nullptr; 
+		pipelineLayoutInfo.setLayoutCount = 0; // Optional
+		pipelineLayoutInfo.pSetLayouts = nullptr; // Optional
+		pipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
+		pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 
 		if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS)
 		{
@@ -831,27 +883,13 @@ private:
 		return shaderModule;
 	}
 #pragma endregion
-
-#pragma region RENDER PASSES
-	// creates as render pass object which tell vulkan about the framebuffer attachments that will be used while rendering
-	// It specifies how many color and depth buffers there will be, how many samples to use for each of them and
-	// how their contents should be handled throughout the rendering operations.
-	void createRenderPass()
-	{
-		// Attachment description
-
-		// Subpasses and attachment references
-
-		// Render pass
-	}
-#pragma endregion
 };
 
 #pragma region MAIN PROGRAM
 
-int main()
+int exercise11()
 {
-	HelloTriangleApplication app;
+	HelloTriangleApplication11 app;
 
 	try
 	{

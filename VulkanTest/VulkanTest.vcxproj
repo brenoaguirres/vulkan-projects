@@ -141,6 +141,8 @@
   <ItemGroup>
     <ClCompile Include="basevulkan.cpp" />
     <ClCompile Include="ex1.cpp" />
+    <ClCompile Include="ex10.cpp" />
+    <ClCompile Include="ex11.cpp" />
     <ClCompile Include="ex2.cpp" />
     <ClCompile Include="ex3.cpp" />
     <ClCompile Include="ex4.cpp" />
@@ -148,7 +150,18 @@
     <ClCompile Include="ex6.cpp" />
     <ClCompile Include="ex7.cpp" />
     <ClCompile Include="ex8.cpp" />
+    <ClCompile Include="ex9.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\compile.bat" />
+    <None Include="shaders\frag.spv" />
+    <None Include="Shaders\shader.frag" />
+    <None Include="Shaders\shader.vert" />
+    <None Include="shaders\vert.spv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="spirv.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

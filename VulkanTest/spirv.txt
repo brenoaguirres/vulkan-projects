@@ -1,0 +1,7 @@
+Create a compile.bat file with the following contents:
+
+C:/VulkanSDK/x.x.x.x/Bin/glslc.exe shader.vert -o vert.spv
+C:/VulkanSDK/x.x.x.x/Bin/glslc.exe shader.frag -o frag.spv
+pause
+
+Replace the path to glslc.exe with the path to where you installed the Vulkan SDK. Double click the file to run it.
