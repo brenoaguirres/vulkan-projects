@@ -31,6 +31,9 @@
     <Filter Include="Arquivos de Origem\shaders">
       <UniqueIdentifier>{9c33299c-da77-42ad-9c27-48986f6dbe01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Arquivos de Origem\Examples\DrawingTriangle\Drawing">
+      <UniqueIdentifier>{1b4e3f5e-b02f-406d-bb0d-6cf9fc5f050a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -71,6 +74,15 @@
     </ClCompile>
     <ClCompile Include="ex11.cpp">
       <Filter>Arquivos de Origem\Examples\DrawingTriangle\GraphicsPipelineBasics</Filter>
+    </ClCompile>
+    <ClCompile Include="ex12.cpp">
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\GraphicsPipelineBasics</Filter>
+    </ClCompile>
+    <ClCompile Include="ex13.cpp">
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\GraphicsPipelineBasics</Filter>
+    </ClCompile>
+    <ClCompile Include="ex14.cpp">
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\Drawing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
