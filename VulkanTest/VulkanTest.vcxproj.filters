@@ -84,6 +84,9 @@
     <ClCompile Include="ex14.cpp">
       <Filter>Arquivos de Origem\Examples\DrawingTriangle\Drawing</Filter>
     </ClCompile>
+    <ClCompile Include="ex15.cpp">
+      <Filter>Arquivos de Origem\Examples\DrawingTriangle\Drawing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\shader.frag">

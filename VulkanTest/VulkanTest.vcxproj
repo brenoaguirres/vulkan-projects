@@ -146,6 +146,7 @@
     <ClCompile Include="ex12.cpp" />
     <ClCompile Include="ex13.cpp" />
     <ClCompile Include="ex14.cpp" />
+    <ClCompile Include="ex15.cpp" />
     <ClCompile Include="ex2.cpp" />
     <ClCompile Include="ex3.cpp" />
     <ClCompile Include="ex4.cpp" />
