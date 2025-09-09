@@ -1,0 +1,7 @@
+[ ] read Vulkan docs again 1 or 2 times
+[ ] finish reading Vulkan docs
+[ ] implement vulkan examples
+
+https://vulkan-tutorial.com/Introduction
+https://github.com/jherico/VulkanExamples/tree/cpp/examples
+https://github.com/SaschaWillems/Vulkan?tab=readme-ov-file#Basics
