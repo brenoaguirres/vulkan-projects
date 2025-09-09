@@ -1,7 +1,11 @@
 [ ] read Vulkan docs again 1 or 2 times
 [ ] finish reading Vulkan docs
 [ ] implement vulkan examples
+[ ] vulkan and cg tutorials
+[ ] cg books
 
 https://vulkan-tutorial.com/Introduction
 https://github.com/jherico/VulkanExamples/tree/cpp/examples
 https://github.com/SaschaWillems/Vulkan?tab=readme-ov-file#Basics
+https://www.youtube.com/watch?v=Y9U9IE0gVHA&list=PL8327DO66nu9qYVKLDmdLW_84-yE4auCR
+https://www.youtube.com/watch?v=W6yEALqsD7k&list=PL9_jI1bdZmz2emSh0UQ5iOdT2xRHFHL7E
