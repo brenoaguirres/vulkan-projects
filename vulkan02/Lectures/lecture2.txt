@@ -1,0 +1,56 @@
+Vulkan Game Engine Lecture 2
+
+How does a computer draw?
+* You can brake any drawing or shape into series of triangles and clever coloring.
+
+How to draw a triangle?
+* Defined by three vertices.
+* The position of each vertex is represented by a (x, y) pair of coordinates.
+* Find which pixels are mostly contained by our triangle and color them.
+
+This is the problem the graphic pipeline in Vulkan solves to us.
+* gp - linear sequence of stages where each stage take input data, perform some operations on it and outputs
+	transform data as input into the next stage.
+* vertex/index buffer >> input assembler > vertex shader > rasterization > fragment shader > color blending >> framebuffer (image)
+
+Input Assembler
+* Takes as input a list of numbers and groups them together into geometry.
+
+Vertex Shader
+* Processes each vertex individually and performs transformations such as rotations and translations.
+
+Rasterization
+* Breaks the geometry into fragments for each pixel our triangle overlaps.
+
+Fragment Shader
+* Processes each fragment individually and output values such as the color by using interpolated data
+	from things like textures, normals and lighting.
+
+Color Blending
+* Applies operations to mix the values from multiple fragments that correspond to the same pixel in
+	the final image.
+
+Fixed Function Stages (Input Assembling, Rasterizing, Color Blending)
+* We have less control of what operations these stages perform.
+
+Programmable Stages (Vertex Shader, Tesselation, Geometry Shader, Fragment Shader)
+* We have the ability to upload our own code to be executed by the gpu.
+
+Shaders
+* Programs that live and run on the GPU, and are written in HLSL or GLSL.
+
+The advantage of writing shaders instead of programs that draw on the CPU is that the GPU's are
+specifically made for doing graphics parallel computing much faster. The trade-off is that when
+programming for GPU's we are much more limited in what we can do.
+
+GLSL // Shader Language
+gl_Position - 4 dimensional vector that maps to an output frame buffer, goes from (-1, -1) to (1, 1) and the center is (0, 0)
+gl_VertexIndex - contains the index of the current vertex for each time the main function is run
+
+The second parameter in gl_Position corresponds to the z value (0 - 1), which is kind of having a layer where 0 is the frontmost layer.
+The third parameter in gl_Position is the factor in which all other values are divided by, resulting in a normalized device coordinate.
+
+The fragment shader on the other hand is capable of outputting to multiple locations (location = 0),
+	we specify that the variable will be used as output, its name and type.
+vec4(r, g, b, a);
+The fragment shader will be run on each fragment, which will define which pixels will receive this color.
