@@ -1,0 +1,14 @@
+Vulkan Game Engine Lecture 3
+
+Device Class
+* Creates a Vulkan Instance - Initializes the Vulkan library and 
+	is the connection between our application and Vulkan.
+* Setup Validation Layers - Enables validation layers for when in
+	debug mode, disable for release builds.
+* Create Surface - Creates GLFW surface which connects our window
+	with Vulkan's ability to display results.
+* Pick Physical Device - Selects device our app will be using, e.g.
+	a GPU that supports Vulkan.
+* Create Logical Device - Create the structure that describes what
+	features of our physical device we will be using.
+* Create Command Pool - Handles command buffer allocation.

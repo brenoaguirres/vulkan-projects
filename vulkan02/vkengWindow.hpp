@@ -17,6 +17,7 @@ namespace vkeng
 		vkengWindow& operator=(const vkengWindow&) = delete;
 
 		bool shouldClose();
+		void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
 
 	private:
 		const int width;

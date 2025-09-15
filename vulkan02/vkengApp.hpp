@@ -1,6 +1,9 @@
 #pragma once
 
+#include <string>
+
 #include "vkengWindow.hpp"
+#include "vkengPipeline.hpp"
 
 namespace vkeng
 {
@@ -12,9 +15,12 @@ namespace vkeng
 
 		static constexpr int WIDTH = 800;
 		static constexpr int HEIGHT = 600;
+		const std::string VERT_PATH = "Shaders/simple_shader.vert.spv";
+		const std::string FRAG_PATH = "Shaders/simple_shader.frag.spv";
 
 		void run();
 	private:
 		vkengWindow window{ WIDTH, HEIGHT, "Vulkan Engine" };
+		vkengPipeline pipeline{VERT_PATH, FRAG_PATH};
 	};
 }

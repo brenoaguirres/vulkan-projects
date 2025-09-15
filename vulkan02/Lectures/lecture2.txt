@@ -54,3 +54,12 @@ The fragment shader on the other hand is capable of outputting to multiple locat
 	we specify that the variable will be used as output, its name and type.
 vec4(r, g, b, a);
 The fragment shader will be run on each fragment, which will define which pixels will receive this color.
+
+The shader code must be compiled to an intermediate binary folder known as SPIR-V.
+
+compile.bat -
+C:\VulkanSDK\1.4.321.1\Bin\glslc.exe simple_shader.vert -o simple_shader.vert.spv
+C:\VulkanSDK\1.4.321.1\Bin\glslc.exe simple_shader.frag -o simple_shader.frag.spv
+
+Pipeline
+
