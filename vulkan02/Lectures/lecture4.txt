@@ -1,0 +1,75 @@
+Vulkan Game Engine Lecture 4
+
+Pipeline Config Info
+* A struct which explicitly sets the values configuring the 
+	different stages of the graphics pipeline.
+* First we pass to the pipeline config info struct the 
+	input assembly info, we also say that we want to
+	specify a triangle list topology and we don't
+	want to enable primitive restart.
+* Other option is a triangle strip topology, 
+	which is more efficient because it reuses vertices,
+	then we would want to enable primitive restart
+	so we can break up the strips by passing a special index
+	value.
+
+* Then we pass the viewport info, we set the viewport
+	to start at (0,0) and have a width and height
+	of the swap chain extent, then we set the minDepth
+	to 0.0f and maxDepth to 1.0f.
+* The viewport tells our pipeline how to map from
+	the 2D coordinates in the normalized device coordinates
+	space to the actual pixels on the screen.
+* minDepth and maxDepth are used for depth
+	buffering, which is use to transform the z
+	component of the gl_Position.
+
+* The scissor is like the viewport, but instead
+	of squishing or stretching the image it will
+	crop it.
+
+* We then combine both into a viewPortStartInfo struct.
+
+* Next we pass the rasterization info, it tells
+	the pipeline how to handle the rasterization stage
+	which breaks the primitives into fragments.
+* DepthClampEnable forces the depth values to be
+	between 0.0f and 1.0f, if we set it to VK_TRUE
+	it would instead clamp the values outside this range
+	to the nearest valid value. This requires a GPU feature
+	to be enabled, so we leave it to VK_FALSE.
+* RasterizerDiscardEnable discards all primitives before
+	rasterization, which basically disables any output 
+	to the framebuffer.
+* PolygonMode specifies how to draw the polygons, 
+	we set it to VK_POLYGON_MODE_FILL to fill the area.
+* CullMode hides the front, back or no faces of polygons,
+	and uses FrontFace to determine if a face is front or back
+	based on the vertex order (clockwise or counterclockwise).
+* DepthBiasEnable can be used to alter depth values, by adding
+	adding a constant or (factor of) slope-based value to them.
+
+* Multisampling relates to how the rasterizer handles the edges
+	of geometry. Without multisampling, a fragment is either
+	completely in or out of a triangle based on the center of the pixel,
+	this results in aliasing. MSAA is a method that takes multiple
+	samples per fragment and averages them to get a final color, to better
+	aproximate how much of the fragment is contained by the triangle.
+
+* ColorBlending controls how to combine the color of a new fragment
+	with the color already in the framebuffer if they overlap.
+* ColorBlending mixes colors basically by this formula:
+	color.rgb = (srcColorBlendFactor * newColor.rgb) < colorBlendOp > (dstColorBlendFactor * oldColor.rgb)
+	color.a = (srcAlphaBlendFactor * newColor.a) < alphaBlendOp > (dstAlphaBlendFactor * oldColor.a)
+	color = color & colorWriteMask
+
+* DepthTesting / DepthBuffer is an additional attachment that
+	stores a value for each pixel that represents the distance
+	from the camera to the closest object at that pixel.
+	Fragments that are behind other fragments with closer depth
+	buffer values are discarded.
+
+* We still need to pass the pipeline layout, renderpass and
+	subpass index to the pipeline config info struct.
+	We dont provide any default for these and we will
+	set them outside of the function.

@@ -21,6 +21,13 @@ namespace vkeng
 		void run();
 	private:
 		vkengWindow window{ WIDTH, HEIGHT, "Vulkan Engine" };
-		vkengPipeline pipeline{VERT_PATH, FRAG_PATH};
+		vkengDevice device{ window };
+		vkengPipeline pipeline
+		{
+			device, 
+			VERT_PATH, 
+			FRAG_PATH, 
+			vkengPipeline::defaultPipelineConfigInfo(WIDTH, HEIGHT)
+		};
 	};
 }

@@ -151,6 +151,9 @@
     <ClInclude Include="vkengPipeline.hpp" />
     <ClInclude Include="vkengWindow.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Lectures\lecture4.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
