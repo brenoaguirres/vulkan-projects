@@ -47,5 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Lectures\lecture4.txt" />
+    <Text Include="Lectures\lecture5.txt" />
   </ItemGroup>
 </Project>

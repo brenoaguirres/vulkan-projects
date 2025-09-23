@@ -31,7 +31,7 @@ namespace vkeng
 			const std::string& fragFilePath, 
 			const PipelineConfigInfo& configInfo
 		);
-		~vkengPipeline() {};
+		~vkengPipeline();
 
 		vkengPipeline(const vkengPipeline&) = delete;
 		void operator=(const vkengPipeline&) = delete;
