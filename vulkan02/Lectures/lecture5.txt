@@ -1,0 +1,76 @@
+Vulkan Game Engine Lecture 5
+
+What is a Swap Chain?
+* The graphics pipeline outputs images to a framebuffer.
+* The framebuffer can have different attachments (color buffer, depth buffer, stencil buffer).
+* The swap chain uses this framebuffer objects to read from them and display them on the screen.
+
+Double Buffering vs Triple Buffering
+* Modern OS uses at least two buffers at once.
+* The front buffer is the one currently being displayed on the screen.
+* The back buffer is the one being rendered to by the GPU.
+* The swap chain handles displays, by swapping the front and back buffers at the appropriate time
+	just prior to the vertical sync.
+* Vsync is the moment at which the display begins drawing the new image and is synchronized 
+	with the monitor's refresh rate. If the refresh rate is 60Hz, the vsync happens 60 times per second.
+	Every 16.6ms the vsync occurs and front and back buffers are swapped.
+* Turning off vsync can lead to screen tearing. Tearing occurs when the front buffer is updated
+	while the display is in the middle of drawing it. This can lead to parts of two different frames
+	being displayed at once.
+
+* Each framebuffer requires its own attachments, except for those which can be shared
+	such as depth and stencil buffers.
+
+* Once we finish rendering the frame, our device needs to wait until the next vsync event
+	before swapping the buffers. This can lead to idle GPU time, which is wasted performance.
+* Triple buffering can help with this. Instead of having one back buffer, we have two back buffers.
+
+* G-Sync and Free-Sync are technologies that allow the monitor to adjust its refresh rate to match
+	the game's frame rate.
+
+Swap Chain Present Modes - FIFO vs Mailbox vs Immediate
+* FIFO is the standard present mode. It is similar to a queue. The display takes images from the front
+	of the queue and the program adds rendered images to the back of the queue. If the queue is full,
+	the program has to wait until there is space in the queue.
+
+* Even with triple buffering, if the program renders frames faster than the display can handle,
+	the program will still have to wait (GPU Idle time).
+* Mailbox is an alternative present mode. The GPU is never Idle because it'll discard and override the
+	older back buffers if the queue is full. This can lead to lower latency and higher frame rates.
+
+* Mailbox must be supported by the device and we have to verify it before using, 
+	otherwise we have to use FIFO (which is guaranteed to be supported).
+
+* As the GPU never idles, this leads to higher power consumption. This is something to consider
+	for mobile devices (you typically want to use FIFO on mobile devices).
+
+* The Immediate present mode is another option. The program does not wait for the vsync event
+	and the image is displayed immediately. This can lead to screen tearing and is generally not recommended.
+  It is usually supported and is effectively the same as turning vsync off.
+
+// learncpp.com
+// #include <memory> // for std::unique_ptr
+// smart pointers - a smart pointer simulates a regular pointer while providing additional features, 
+// such as automatic memory management, so we're no longer responsible for calling new and delete
+// e.g. creating and destroying objects on the heap.
+
+Implementing createPipelineLayout()
+* a pipeline set layout is used to pass data other than our vertex data to the shaders 
+	(e.g. textures, uniform buffers, etc.).
+* push constants are a way to pass a small amount of data to shaders to our shader programs.
+
+Implementing createPipeline()
+* when creating the pipeling config info, it's important to pass the swapchain's width and height
+	as it doesn't necessarily match the window's width and height. On high pixel density displays,
+	the window measured in screen coordinates is smaller than the number of pixels it contains.
+
+Brief Introduction to Render Passes
+* a render pass describes the structure and format of our framebuffer objects and their attachments.
+* for the getRenderPass() function, we receive a render pass object that has the attachments vector
+	with index 0 being the color buffer and index 1 being the depth buffer.
+
+* It may help to think of a render pass as a blueprint that tells the graphics pipeline object what
+	layout to expect for the output framebuffer. That way, when is time to render, our graphics
+	pipeline is already prepared to output to our framebuffer, as long as the framebuffer matches
+	the layout specified in the render pass.
+* For more complex render passes, we can have multiple subpasses grouped within a single render pass.

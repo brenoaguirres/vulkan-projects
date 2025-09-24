@@ -143,12 +143,14 @@
     <ClCompile Include="vkengApp.cpp" />
     <ClCompile Include="vkengDevice.cpp" />
     <ClCompile Include="vkengPipeline.cpp" />
+    <ClCompile Include="vkengSwapChain.cpp" />
     <ClCompile Include="vkengWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vkengApp.hpp" />
     <ClInclude Include="vkengDevice.hpp" />
     <ClInclude Include="vkengPipeline.hpp" />
+    <ClInclude Include="vkengSwapChain.hpp" />
     <ClInclude Include="vkengWindow.hpp" />
   </ItemGroup>
   <ItemGroup>

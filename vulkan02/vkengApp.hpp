@@ -1,9 +1,13 @@
 #pragma once
 
-#include <string>
-
 #include "vkengWindow.hpp"
 #include "vkengPipeline.hpp"
+#include "vkengDevice.hpp"
+#include "vkengSwapChain.hpp"
+
+#include <string>
+#include <memory>
+#include <vector>
 
 namespace vkeng
 {
@@ -12,6 +16,9 @@ namespace vkeng
 	public:
 		vkengApp();
 		~vkengApp();
+
+		vkengApp(const vkengApp&) = delete;
+		vkengApp& operator=(const vkengApp&) = delete;
 
 		static constexpr int WIDTH = 800;
 		static constexpr int HEIGHT = 600;
@@ -22,12 +29,14 @@ namespace vkeng
 	private:
 		vkengWindow window{ WIDTH, HEIGHT, "Vulkan Engine" };
 		vkengDevice device{ window };
-		vkengPipeline pipeline
-		{
-			device, 
-			VERT_PATH, 
-			FRAG_PATH, 
-			vkengPipeline::defaultPipelineConfigInfo(WIDTH, HEIGHT)
-		};
+		vkengSwapChain swapChain{ device, window.getExtent() };
+		std::unique_ptr<vkengPipeline> pipeline;
+		VkPipelineLayout pipelineLayout;
+		std::vector<VkCommandBuffer> commandBuffers;
+
+		void createPipelineLayout();
+		void createPipeline();
+		void createCommandBuffers();
+		void drawFrame();
 	};
 }
