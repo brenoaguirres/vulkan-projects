@@ -74,3 +74,69 @@ Brief Introduction to Render Passes
 	pipeline is already prepared to output to our framebuffer, as long as the framebuffer matches
 	the layout specified in the render pass.
 * For more complex render passes, we can have multiple subpasses grouped within a single render pass.
+
+What is a Command Buffer?
+* We can't execute commands directly in Vulkan, but rather we want to record them into a command buffer
+and then submit the command to a device queue for execution.
+
+Example: Record this into a command buffer
+Start Render Pass
+1) bind pipeline 1
+2) bind texture 4
+3) draw 100 vertices
+End Render Pass
+
+Buffer #1 submit to device graphics queue and outputs to framebuffer 1.
+
+* Command buffers allow a sequence of commands to be recorded once and then reused for multiple frames.
+(There's no need to repeat draw commands for each frame like OpenGL).
+
+Option 1: Record command buffers once at initialization, and then reuse for each frame.
+Option 2: Record command buffer every frame, just before submitting.
+
+* Command Buffer Lifecycle
+* When the command is submitted, it enters 'Pending' state. It's invalid to reuse a command
+that is already in the pending state. It needs to first complete before being resubmitted.
+
+* Our current swap chain limits us to submit at most two command buffers to the device's
+graphics queue at once (MAX_FRAMES_IN_FLIGHT = 2). After two command buffers have been submitted
+the CPU will block the next call to the vkAcquireNextImageKHR().
+* When the GPU has finished executing one of the command buffers it will signal the CPU to carry on.
+
+* It's possible to use more than 2 framebuffers with only 2 command buffers.
+* When recording a start render pass command, we must specify the target output framebuffer
+so if this is the case, we need to re-record a command buffer every frame.
+
+Command Buffer Allocation
+
+* First we resize the command buffer vector. The swap chain image count will be likely 2 or 3 depending
+if your device supports double or triple buffering.
+
+* We create an structure to allocate our command buffer.
+* There are two types of CB's - primary and secondary.
+* Primary CB - Can be submitted for a queue for execution but can't be by other command buffers.
+* Secondary CB - Can't be submitted but can be called by other CB's.
+
+* Command pools are opaque objects that command buffer memory is allocated from. An app may need to create
+and destroy commands buffers frequently so to reduce resource creation costs vulkan has us to allocate and
+free command buffers from command pools.
+
+* VK_SUBPASS_CONTENTS_INLINE
+* Signals that the subsequent render pass cmds will be directly embedded in the primary cmd buffer itself,
+and that no secondary cmd buffers will be used.
+
+* VK_SUBPASS_CONTENTS_SECONDARY
+* Signals that render pass commands will be executed from secondary command buffers.
+
+* There is no mixing allowed. We can't have a render pass using INLINE and SECONDARY commands at the same time.
+
+
+// vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+* Other options are:
+	VK_PIPELINE_BIND_POINT_COMPUTE and VK_PIPELINE_BIND_POINT_RAY_TRACING_KHR
+
+// vkCmdDraw(commandBuffers[i], 3, 1, 0, 0);
+* 3 is vertex count
+* 1 is number of instances
+* You can use multiple instances to draw particle systems (maybe GPU instancing also?).
+* 0, 0 is offset
