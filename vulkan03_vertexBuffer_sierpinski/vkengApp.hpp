@@ -4,6 +4,7 @@
 #include "vkengPipeline.hpp"
 #include "vkengDevice.hpp"
 #include "vkengSwapChain.hpp"
+#include "vkengModel.hpp"
 
 #include <string>
 #include <memory>
@@ -33,7 +34,9 @@ namespace vkeng
 		std::unique_ptr<vkengPipeline> pipeline;
 		VkPipelineLayout pipelineLayout;
 		std::vector<VkCommandBuffer> commandBuffers;
+		std::unique_ptr<vkengModel> model;
 
+		void loadModels();
 		void createPipelineLayout();
 		void createPipeline();
 		void createCommandBuffers();

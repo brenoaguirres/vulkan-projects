@@ -1,8 +1,0 @@
-What is a vertex buffer?
-
-* Vertex buffers can store vertex input data and be bound to graphics pipelines.
-* 3D models have thousands of vertices.
-
-* The vertex buffer is just a chunk of memory that we can pass into our vertex shader
-with whatever data we would like into this memory as long as we tell our graphics
-pipeline how it's structured.

@@ -1,0 +1,76 @@
+What is a vertex buffer?
+
+* Vertex buffers can store vertex input data and be bound to graphics pipelines.
+* 3D models have thousands of vertices.
+
+* The vertex buffer is just a chunk of memory that we can pass into our vertex shader
+with whatever data we would like into this memory as long as we tell our graphics
+pipeline how it's structured.
+
+* The first way to structure this data is by grouping it into attributes.
+* A vertex attribute is just an input variable that is specified on a
+per-vertex basis.
+* We could create a vertex attribute for our 2D position.
+	layout(location = 0) in vec2 position;
+* For only this attribute our vertex buffer would look like this:
+{(px0, py0), (px1, py1), (px2,py2), ...}
+
+* If we have a second vertex attribute such as:
+	layout(location = 1) in vec3 color;
+* Our vertex buffer will look like:
+{(px0, py0), (r0, g0, b0), (px1,py1), (r1, g1, b1), ...}
+
+* The other way of structuring this data is by grouping attributes into separate bindings.
+* If we add other attribute:
+	layout(location = 2) in vec3 normal;
+* We could interleave all three attributes into a single binding or have one binding per
+attribute.
+
+Vertex binding descriptions
+
+* For each binding we need to provide a vertex description at pipeline creation.
+* In the description, we need to specify the binding index, the input rate and the
+stride.
+* For now input rate will always be VK_VERTEX_INPUT_RATE_VERTEX but it can be
+VK_VERTEX_INPUT_RATE_INSTANCE (for when working with instanced data).
+* The stride specifies the interval in bytes from one entry to the next.
+
+* Imagine a pointer at the start of a vertex buffer. The stride indicates how many
+bytes it needs to advance each time to get to the start of the next vertices data.
+
+Vertex Attribute Description
+
+* For each attribute we must provide a vertex attribute description.
+* Attribute descriptions needs four pieces of information:
+	- The binding index for the vertex buffer the attribute is located in.
+	- The location value for the input in the vertex shader.
+	- The offset of the attribute in bytes from the vertex start.
+	- VK format value describing the type of data.
+* Example: layout (location = 1) in vec3 color;
+	- binding = 0
+	- location = 1
+	- offset = 8 bytes
+	- format = VK_FORMAT_R32G32B32_SFLOAT
+
+float: VK_FORMAT_R32_SFLOAT
+vec2: VK_FORMAT_R32G32_SFLOAT
+vec3: VK_FORMAT_R32G32B32_SFLOAT
+vec4: VK_FORMAT_R32G32B32A32_SFLOAT
+
+ivec2: VK_FORMAT_R32G32_SINT (signed integer)
+uvec2: VK_FORMAT_R32G32_UINT (unsigned integer)
+double: VK_FORMAT_R64_SFLOAT (double precision float)
+
+Binding vs. Buffer
+
+* Typically you'll want to minimize the amount of memory allocations. So often
+for vertex data, even if we have multiple bindings we will only allocate one
+large vertex buffer and have each binding mapped to a different region of the
+same vertex buffer.
+
+Interleaved vs. Separate binding
+
+* Typically interleaved is better but depending on your rendering pipeline, the
+algorithms being used and even your specific hardware, using separate buffers
+may yield better performance.
+

@@ -22,6 +22,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="vkengApp.cpp" />
     <ClCompile Include="vkengDevice.cpp" />
+    <ClCompile Include="vkengModel.cpp" />
+    <ClCompile Include="vkengPatterns.cpp" />
     <ClCompile Include="vkengPipeline.cpp" />
     <ClCompile Include="vkengSwapChain.cpp" />
     <ClCompile Include="vkengWindow.cpp" />
@@ -29,6 +31,8 @@
   <ItemGroup>
     <ClInclude Include="vkengApp.hpp" />
     <ClInclude Include="vkengDevice.hpp" />
+    <ClInclude Include="vkengModel.hpp" />
+    <ClInclude Include="vkengPatterns.hpp" />
     <ClInclude Include="vkengPipeline.hpp" />
     <ClInclude Include="vkengSwapChain.hpp" />
     <ClInclude Include="vkengWindow.hpp" />
